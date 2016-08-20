@@ -12,9 +12,9 @@ yifydown.sh [movie name]
 
 There aren't problems in writing the movie name with spaces; the script takes everything to the right as the movie name.
 
-After launching the script, it will show a movie, and ask if it is the one that you want. You can answer <code>y</code> (yes, continues with that movie), <code>n</code> (no, stops the script), or <code>s</code> (summary, prints the movie's summary and asks again).
+After launching the script, it will show a movie, and ask if it is the one that you want. You can answer <code>y</code> (yes, continues with that movie), <code>n</code> (no, shows the next movie, and repeats all), <code>s</code> (summary, prints the movie's summary and asks for the next movie), or <code>q</code> (quit, stops the script).
 
-Then, the scripts shows the movie qualities available to download (eg. <code>(720p/1080p/3D)</code>) and you can answer with one of those (eg <code>720p</code>).
+Then, the scripts shows the movie qualities available to download (eg. <code>(720p/1080p/3D)</code>) and you can answer with one of those (eg <code>720p</code>), or <code>quit</code> the script.
 
 Finally, the scripts uses aria2 to download the movie through torrent, to the current directory. Everything inside the command line.
 
@@ -46,11 +46,11 @@ Obviously, yts.ag/api. Just remember that not every YIFY movie is indexed at yts
 ```bash
 $ yifydown Full Metal Jacket
 1 movie found.
-Is this movie correct? (y/yes)(n/no)(s/summary)
+Is this movie correct? (y/yes)(n/no)(s/summary)(q/quit)
 Full Metal Jacket (1987)
 $ y
 Available qualities:
-(720p/1080p/3D)
+(720p/1080p/3D)(quit)
 $ 720p
 Now downloading...
 ```
