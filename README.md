@@ -10,7 +10,7 @@ This bash script downloads YIFY movies using YTS.ag Web API.
 yifydown.sh [movie name]
 ```
 
-There aren't problems in writing the movie name with spaces; the script takes everything to the right as the movie name.
+There aren't problems in writing the movie name (or string to search) with spaces; the script takes everything to the right as the movie name.
 
 After launching the script, it will show a movie, and ask if it is the one that you want. You can answer <code>y</code> (yes, continues with that movie), <code>n</code> (no, shows the next movie, and repeats all), <code>s</code> (summary, prints the movie's summary and asks for the next movie), or <code>q</code> (quit, stops the script).
 
