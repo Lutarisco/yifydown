@@ -36,16 +36,18 @@ until [ -n "$RESULT" ]
 do
 for v in $(seq 1 $RESULTS)
 do
-echo "Is this the correct movie? (y/yes)(n/no)(s/summary)"$'\n'"$(echo $DATA | jshon -e data -e movies -e $v -e title_long -u)"
+echo "Is this the correct movie? (y/yes)(n/no)(s/summary)(q/quit)"$'\n'"$(echo $DATA | jshon -e data -e movies -e $v -e title_long -u)"
 read -sn 1 BOOL
 if [ $BOOL = y ]
 then RESULT=$v
 break
 elif [ $BOOL = n ]
-then echo Sorry. Please try again.
+then echo "Sorry, please try again."
 elif [ $BOOL = s ]
 then echo $DATA | jshon -e data -e movies -e $v -e summary -u
 echo
+elif [ $BOOL = q ]
+then exit 0
 else echo "Sorry, please try again."
 fi
 done
@@ -66,12 +68,14 @@ done
 RC=1
 while [ "$RC" -ne 0 ]
 do
-echo "Available qualities:"$'\n'"$(echo "($(for v in $(seq 1 $TORRENTNUMBERS); do echo $TORRENTS | jshon -e $v -e quality -u; done | while read v; do echo -n "$v/"; done | sed "s+/+)+$TORRENTNUMBERS")")"
+echo "Available qualities:"$'\n'"$(echo "($(for v in $(seq 1 $TORRENTNUMBERS); do echo $TORRENTS | jshon -e $v -e quality -u; done | while read v; do echo -n "$v/"; done | sed "s+/+)+$TORRENTNUMBERS")(quit)")"
 read -e QUALITY
 IFOPTIONS=$(for v in $(seq 1 $TORRENTNUMBERS); do echo $TORRENTS | jshon -e $v -e quality -u; done | while read v; do echo -n "$QUALITY = $v -o "; done)
 IFOPTIONS=${IFOPTIONS::${#IFOPTIONS}-4}
 if [ $IFOPTIONS ]
 then $(exit 0)
+elif [ "$QUALITY" = "quit" ]
+then exit 0
 else echo "Sorry, please try again."
 $(exit 1)
 fi
