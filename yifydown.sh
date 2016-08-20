@@ -18,9 +18,6 @@ fi
 
 # Parse the API's json to get the first result's data.
 DATA=$(curl -s "https://yts.ag/api/v2/list_movies.json?query_term=${QUERY// /+}")
-SLUG=$(echo $DATA | jshon -e data -e movies -e 1 -e slug -u)
-TITLE_LONG=$(echo $DATA | jshon -e data -e movies -e 1 -e title_long -u)
-TORRENTS=$(curl -s "https://yts.ag/api/v2/list_movies.json?query_term=Inside+Out" | jshon -e data -e movies -e 1 -e torrents)
 
 # Verify results. If zero, exit.
 RESULTS=$(echo $DATA | jshon -e data -e movie_count -u)
@@ -32,32 +29,37 @@ then echo "1 movie found."
 else echo "$RESULTS movies found."
 fi
 
+
+
+# Prompt movie confirmation.
+until [ -n "$RESULT" ]
+do
+for v in $(seq 1 $RESULTS)
+do
+echo "Is this the correct movie? (y/yes)(n/no)(s/summary)"$'\n'"$(echo $DATA | jshon -e data -e movies -e $v -e title_long -u)"
+read -sn 1 BOOL
+if [ $BOOL = y ]
+then RESULT=$v
+break
+elif [ $BOOL = n ]
+then echo Sorry. Please try again.
+elif [ $BOOL = s ]
+then echo $DATA | jshon -e data -e movies -e $v -e summary -u
+echo
+else echo "Sorry, please try again."
+fi
+done
+done
+
+# Determine Torrent data.
+SLUG=$(echo $DATA | jshon -e data -e movies -e $RESULT -e slug -u)
+TORRENTS=$(echo $DATA | jshon -e data -e movies -e $RESULT -e torrents)
+
 # Extract torrents data
 TORRENTNUMBERS=$(echo $TORRENTS | jshon -l)
 for v in $(seq 1 $TORRENTNUMBERS)
 do
 export TORRENTQUALITY"$v"=$(echo $TORRENTS | jshon -e $v -e quality -u)
-done
-
-# Prompt movie confirmation.
-RC=1
-while [ "$RC" -ne 0 ]
-do
-echo "Is this movie correct? (y/yes)(n/no)(s/summary)"$'\n'"$TITLE_LONG"
-read -sn 1 BOOL
-if [ $BOOL = y ]
-then $(exit 0)
-elif [ $BOOL = n ]
-then echo Sorry.
-exit 0
-elif [ $BOOL = s ]
-then echo $DATA | jshon -e data -e movies -e 1 -e summary -u
-echo
-$(exit 1)
-else echo "Sorry, please try again."
-$(exit 1)
-fi
-RC=$?
 done
 
 # Prompt quality confirmation.
