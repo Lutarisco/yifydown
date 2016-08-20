@@ -72,7 +72,10 @@ echo "Available qualities:"$'\n'"$(echo "($(for v in $(seq 1 $TORRENTNUMBERS); d
 read -e QUALITY
 IFOPTIONS=$(for v in $(seq 1 $TORRENTNUMBERS); do echo $TORRENTS | jshon -e $v -e quality -u; done | while read v; do echo -n "$QUALITY = $v -o "; done)
 IFOPTIONS=${IFOPTIONS::${#IFOPTIONS}-4}
-if [ $IFOPTIONS ]
+if [ -z $QUALITY ]
+then echo "Sorry, please try again."
+$(exit 1) continue
+elif [ $IFOPTIONS ]
 then $(exit 0)
 elif [ "$QUALITY" = "quit" ]
 then exit 0
@@ -92,5 +95,5 @@ done
 HASH=$(echo $TORRENTS | jshon -e $TORRENTNUMBER -e hash -u)
 SIZE=$(echo $TORRENTS | jshon -e $TORRENTNUMBER -e size -u)
 MAGNET="magnet:?xt=urn:btih:$HASH&dn=${SLUG//-/+}&tr=udp://glotorrents.pw:6969/announce&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://torrent.gresille.org:80/announce&tr=udp://tracker.openbittorrent.com:80&tr=udp://tracker.coppersurfer.tk:6969&tr=udp://tracker.leechers-paradise.org:6969&tr=udp://p4p.arenabg.ch:1337&tr=udp://tracker.internetwarriors.net:1337"
-echo "Now downloading..."
+echo "Now downloading..."$'\n'"File size: $SIZE"
 aria2c --seed-time=0 $MAGNET
