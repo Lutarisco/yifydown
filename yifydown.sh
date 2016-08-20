@@ -26,10 +26,10 @@ TORRENTS=$(curl -s "https://yts.ag/api/v2/list_movies.json?query_term=Inside+Out
 RESULTS=$(echo $DATA | jshon -e data -e movie_count -u)
 if [ "$RESULTS" -eq 0 ]
 then echo Sorry, no results found.
+exit 1
 elif [ "$RESULTS" -eq 1 ]
 then echo "1 movie found."
 else echo "$RESULTS movies found."
-exit 1
 fi
 
 # Extract torrents data
