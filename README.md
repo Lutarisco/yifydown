@@ -50,6 +50,7 @@ File size: 750.66 MB
 
 ```bash
 $ yifydown -fq 720p angry
+12 Angry Men (1957)
 Now downloading...
 File size: 700.07 MB
 ```
