@@ -130,5 +130,5 @@ announce&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://torrent.gresill\
 e.org:80/announce&tr=udp://tracker.openbittorrent.com:80&tr=udp://tracker.coppe\
 rsurfer.tk:6969&tr=udp://tracker.leechers-paradise.org:6969&tr=udp://p4p.arenab\
 g.ch:1337&tr=udp://tracker.internetwarriors.net:1337"
-echo "Now downloading..."$'\n'"File size: $SIZE"
+echo "File size: $SIZE"$'\n'"Now downloading..."
 aria2c --seed-time=0 "$MAGNET"
