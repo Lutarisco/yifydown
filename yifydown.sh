@@ -46,7 +46,7 @@ DATA="$(curl -s "$URL")"
 RESULTS="$(echo "$DATA" | jshon -e data -e movie_count -u)"
 
 if [ -n "$RESULT" ]; then
-  true
+  echo "$(echo "$DATA" | jshon -e data -e movies -e 0 -e title_long -u)"
 elif [ "$RESULTS" -eq 0 ]; then
   echo 'Sorry, no results found.'
   exit 1
