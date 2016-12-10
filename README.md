@@ -16,7 +16,8 @@ The script will show a movie, and ask for confirmation, which can be <code>y</co
 
 Then, the scripts shows the movie qualities available to download (eg. <code>(720p/1080p/3D)</code>), and it can be answer with one of those (eg <code>720p</code>), or <code>quit</code> the script. However, if the option <code>-q [quality]</code> is passed, the script will try to download such quality, and if it isn't available, will show the available ones.
 
-Finally, the script uses aria2 to download the movie through torrent, to the current directory. Everything inside the command line.
+The script then searches and downloads the spanish subtitles for that movie, if present in www.yifysubtitles.com.
+Finally, the script uses aria2 to download the movie through torrent, to the current directory. Everything inside bash.
 
 ## Installation
 
@@ -38,21 +39,23 @@ Obviously, yts.ag/api. Just remember that not every YIFY movie is indexed at yts
 ```bash
 $ yifydown Full Metal Jacket
 1 movie found.
-Is this the correct movie? (y/yes)(n/no)(s/summary)(q/quit)
+is this the correct movie? (y/yes)(n/no)(s/summary)(q/quit)
 Full Metal Jacket (1987)
 $ y
-Available qualities:
+available qualities:
 (720p)(quit)
 $ 720p
-File size: 750.66 MB
-Now downloading...
+downloading spanish subtitles... done.
+file size: 750.66 MB
+now downloading...
 ```
 
 ```bash
 $ yifydown -fq 720p angry
 12 Angry Men (1957)
-File size: 700.07 MB
-Now downloading...
+file size: 700.07 MB
+downloading spanish subtitles... done.
+now downloading...
 ```
 
 ## Contributors
